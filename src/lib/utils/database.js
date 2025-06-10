@@ -21,6 +21,11 @@ export async function initDatabase() {
         // Enable foreign keys
         await db.run('PRAGMA foreign_keys = ON');
 
+        // Drop existing tables if they exist
+        await db.run('DROP TABLE IF EXISTS donations');
+        await db.run('DROP TABLE IF EXISTS projects');
+        await db.run('DROP TABLE IF EXISTS admin_users');
+
         // Create projects table
         await db.run(`
             CREATE TABLE IF NOT EXISTS projects (
@@ -32,7 +37,7 @@ export async function initDatabase() {
             )
         `);
 
-        // Create donations table
+        // Create donations table with Mpesa-specific fields
         await db.run(`
             CREATE TABLE IF NOT EXISTS donations (
                 id TEXT PRIMARY KEY,
@@ -43,7 +48,11 @@ export async function initDatabase() {
                 is_anonymous BOOLEAN DEFAULT false,
                 status TEXT DEFAULT 'pending',
                 mpesa_code TEXT,
-                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+                checkout_request_id TEXT UNIQUE,
+                transaction_timestamp TEXT,
+                transaction_description TEXT,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         `);
 
@@ -60,6 +69,7 @@ export async function initDatabase() {
         await db.run('CREATE INDEX IF NOT EXISTS idx_donations_project_id ON donations(project_id)');
         await db.run('CREATE INDEX IF NOT EXISTS idx_donations_status ON donations(status)');
         await db.run('CREATE INDEX IF NOT EXISTS idx_donations_created_at ON donations(created_at)');
+        await db.run('CREATE INDEX IF NOT EXISTS idx_donations_checkout_request_id ON donations(checkout_request_id)');
         await db.run('CREATE INDEX IF NOT EXISTS idx_projects_current_amount ON projects(current_amount)');
 
         console.log('Database initialized successfully');
