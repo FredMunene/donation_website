@@ -56,6 +56,12 @@ export async function initDatabase() {
             )
         `);
 
+        // Create indexes for better query performance
+        await db.run('CREATE INDEX IF NOT EXISTS idx_donations_project_id ON donations(project_id)');
+        await db.run('CREATE INDEX IF NOT EXISTS idx_donations_status ON donations(status)');
+        await db.run('CREATE INDEX IF NOT EXISTS idx_donations_created_at ON donations(created_at)');
+        await db.run('CREATE INDEX IF NOT EXISTS idx_projects_current_amount ON projects(current_amount)');
+
         console.log('Database initialized successfully');
     } catch (error) {
         console.error('Error initializing database:', error);
