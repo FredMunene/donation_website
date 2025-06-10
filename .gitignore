@@ -7,6 +7,10 @@ node_modules
 .wrangler
 /.svelte-kit
 /build
+package-lock.json
+
+# Database
+donations.db
 
 # OS
 .DS_Store
