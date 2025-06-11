@@ -22,7 +22,7 @@
 
 **Dependencies to install**:
 ```bash
-npm install better-sqlite3
+npm install sqlite3
 npm install dotenv
 ```
 
