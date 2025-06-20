@@ -9,7 +9,7 @@
     <div class="bar" style="width: {project.current_amount / project.target_amount * 100}%"></div>
   </div>
   <p>KSh {project.current_amount} / KSh {project.target_amount}</p>
-  <a href="/donate/{project.id}">Donate Now</a>
+  <a href="/donate/{project.id}" class="donate-button">Donate Now</a>
 </div>
 
 <style>
@@ -31,7 +31,7 @@
     height: 100%;
     transition: width 0.3s ease;
   }
-  a {
+  .donate-button {
     display: inline-block;
     margin-top: 8px;
     padding: 8px 16px;
@@ -39,5 +39,9 @@
     color: white;
     text-decoration: none;
     border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  .donate-button:hover {
+    background: #45a049;
   }
 </style> 
