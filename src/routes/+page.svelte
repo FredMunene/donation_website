@@ -1,7 +1,7 @@
 <script>
   import ProjectCard from '$lib/components/ProjectCard.svelte';
   import { onMount } from 'svelte';
-  import { projects } from '$lib/stores/projects.js';
+  import { projects, loadProjects } from '$lib/stores/projects.js';
 
   onMount(async () => {
     await loadProjects();
